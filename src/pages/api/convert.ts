@@ -9,7 +9,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ConvertResponse | ErrorMsg>
 ) {
-  console.log(req.body)
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method Not Allowed" })
     return
@@ -21,7 +20,12 @@ export default async function handler(
     from,
     to,
   })
-
-  const data: ConvertResponse = await fetcher(`/convert?${params}`, "GET")
-  res.status(200).json(data)
+  const response = await fetcher(`/convert?${params}`, "GET")
+  if (response.error) {
+    res
+      .status(response.status || 500)
+      .json({ message: response.message || "Internal Server Error" })
+    return
+  }
+  res.status(200).json(response)
 }

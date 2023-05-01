@@ -1,4 +1,4 @@
-import { fetcher, SymbolsResponse } from "@/lib"
+import { ConvertResponse, fetcher } from "@/lib"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 type ErrorMsg = {
@@ -7,14 +7,19 @@ type ErrorMsg = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<SymbolsResponse | ErrorMsg>
+  res: NextApiResponse<ConvertResponse | ErrorMsg>
 ) {
-  if (req.method !== "GET") {
+  console.log(req.body)
+  if (req.method !== "POST") {
     res.status(405).json({ message: "Method Not Allowed" })
     return
   }
-
-  const response = await fetcher("/symbols", "GET")
+  const { symbols, base } = req.body
+  const params = new URLSearchParams({
+    symbols,
+    base,
+  })
+  const response = await fetcher(`/latest?${params}`, "GET")
   if (response.error) {
     res
       .status(response.status || 500)

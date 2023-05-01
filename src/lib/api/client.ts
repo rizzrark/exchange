@@ -16,10 +16,11 @@ export const fetcher = async (
       ...options,
     })
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      return { error: true, status: response.status }
     }
     return await response.json()
   } catch (error) {
     console.error(error)
+    return { error: true, message: error }
   }
 }
