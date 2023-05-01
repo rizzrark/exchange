@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 
 const Container = styled.div`
   padding: 0 0.5rem;
@@ -31,14 +31,68 @@ const Description = styled.p`
   line-height: 1.5;
   font-size: 1.5rem;
 `
-const CodeTag = styled.code`
-  background: #fafafa;
-  border-radius: 5px;
-  margin: 0 0.75rem;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 `
 
-export { Container, Main, Title, Description, CodeTag }
+export const Spinner = styled.div`
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-top: 8px solid #767676;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: ${spin} 0.6s linear infinite;
+`
+export const Input = styled.input`
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #0070f3;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.3);
+  }
+`
+
+const FlexContainerRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`
+
+const FlexContainerColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`
+const Button = styled.button`
+  cursor: pointer;
+  padding: 1rem;
+  font-size: 1.25rem;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+
+  &:hover,
+  :focus,
+  :active {
+    color: #0070f3;
+    border-color: #0070f3;
+  }
+`
+
+export { FlexContainerRow, Button, Main, Title, Description, Container, FlexContainerColumn }
